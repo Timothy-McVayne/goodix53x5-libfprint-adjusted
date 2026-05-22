@@ -60,10 +60,10 @@ struct deserializer<SigfmImgInfo> : public std::true_type {
 } // namespace bin
 
 namespace {
-constexpr auto distance_match = 0.85;
+constexpr auto distance_match = 0.95;
 constexpr auto length_match = 0.05;
 constexpr auto angle_match = 0.05;
-constexpr auto min_match = 5;
+constexpr auto min_match = 3;
 struct match {
     cv::Point2i p1;
     cv::Point2i p2;
@@ -121,7 +121,7 @@ SigfmImgInfo* sigfm_extract(const SigfmPix* pix, int width, int height)
     std::memcpy(img.data, pix, width * height);
 
     /* Apply CLAHE to enhance local contrast for better SIFT detection */
-    auto clahe = cv::createCLAHE(4.0, cv::Size(4, 4));
+    auto clahe = cv::createCLAHE(8.0, cv::Size(4, 4));
     cv::Mat enhanced;
     clahe->apply(img, enhanced);
 
